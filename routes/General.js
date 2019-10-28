@@ -3,13 +3,14 @@ const router = express.Router();
 
 /*GENERAL ROUTES*/
 
-//This takes user to home page
+//Route to direct user to home page
 router.get("/",(req,res)=>
 {
     res.send("Home Page");
 });
 
-//This takes user to about page
+
+//Route to direct user to about us page
 router.get("/about",(req,res)=>
 {
     res.send("About Page");

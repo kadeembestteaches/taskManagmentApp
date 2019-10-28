@@ -1,37 +1,42 @@
-
+/*********************Task ROUTES***************************/
 const express = require('express')
 const router = express.Router();
 
-/*TASK ROUTES*/
-//This takes user to home page
-router.get("/task/add",(req,res)=>
+//Route to direct use to Add Task form
+router.get("/add",(req,res)=>
 {
-    res.send("Add Task Page Page");
+    res.send("Add Task Form");
 });
 
-//This takes user to about page
-router.get("/task/list",(req,res)=>
+//Route to process user's request and data when user submits add task form
+router.post("/add",(req,res)=>
 {
-    res.send("Task List Page");
+    res.send("Submitted Add Task Form");
 });
 
-//This is executed when the user submits the form
-router.post("/task/add",(req,res)=>
+
+//Route to direct user to edit task form
+router.get("/edit/:id",(req,res)=>
 {
-    res.send("");
+    res.send("Edit Task Form");
 });
 
-//This is used to direct the user to the edit form page
-router.get("/task/edit/:id",(req,res)=>
+//Route to process user's request and data when user submits edit task form
+router.put("/login",(req,res)=>
 {
-    res.send("Edit Form");
+    res.send("Submitted Edit Task form");
 });
 
-//This is executed when the user hits the update button
-router.put("/task/edit/:id",(req,res)=>
+//Route used to delete task 
+router.delete("/delete/:id",(req,res)=>
 {
-    res.send("Task List Page");
+    res.send("Deleted Task");
 });
 
+////Route to fetch all tasks
+router.get("/list",(req,res)=>
+{
+    res.send("List All Tasks");
+});
 
 module.exports=router;
