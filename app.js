@@ -1,11 +1,6 @@
 const express= require("express");
 const exphbs = require("express-handlebars");
-const mongoose=require("mongoose");
 const bodyParser = require("body-parser");
-
-
-//import your key object
-const keys = require("./config/key");
 
 
 
@@ -23,22 +18,8 @@ app.use("/user",userRoutes);
 app.use("/task",taskRoutes);
 
 app.use("/",(req,res)=>{
-    res.send("404 Error! Page not found");
+    res.render("General/404");
 });
-
-
-
-
-//connects to MongoDB database
-mongoose.connect(keys.getMongoDBURL(), {useNewUrlParser: true})
-.then(()=>{
-
-    console.log(`You have successfully connected to your mongoDB database`);
-})
-.catch((err)=>{
-
-    console.log(`Sorry, something occured :${err}`);
-})
 
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -51,11 +32,10 @@ app.set("view engine","handlebars");
 app.use(express.static("public"));
 
 
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
-    console.log(`${keys.MONGO_DB_URL}`);
     console.log(`Your Web Server has been connected`);
+    
 });
 
 

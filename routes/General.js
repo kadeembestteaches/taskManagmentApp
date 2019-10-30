@@ -2,18 +2,17 @@ const express = require('express')
 const router = express.Router();
 
 /*GENERAL ROUTES*/
-
 //Route to direct user to home page
 router.get("/",(req,res)=>
 {
-    res.send("Home Page");
+    res.render("General/index");
 });
 
 
 //Route to direct user to about us page
 router.get("/about",(req,res)=>
 {
-    res.send("About Page");
+    res.render("General/about");
 });
 
 module.exports=router;

@@ -5,13 +5,19 @@ const router = express.Router();
 //Route to direct use to Add Task form
 router.get("/add",(req,res)=>
 {
-    res.send("Add Task Form");
+    res.render("Task/taskAddForm")
 });
 
 //Route to process user's request and data when user submits add task form
 router.post("/add",(req,res)=>
 {
     res.send("Submitted Add Task Form");
+});
+
+////Route to fetch all tasks
+router.get("/list",(req,res)=>
+{
+    res.render("Task/taskdashboard");
 });
 
 
@@ -33,10 +39,6 @@ router.delete("/delete/:id",(req,res)=>
     res.send("Deleted Task");
 });
 
-////Route to fetch all tasks
-router.get("/list",(req,res)=>
-{
-    res.send("List All Tasks");
-});
+
 
 module.exports=router;
