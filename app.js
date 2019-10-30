@@ -12,6 +12,9 @@ const generalRoutes = require("./routes/General");
 //creation of app object
 const app = express();
 
+//Most be above your routes
+app.use(bodyParser.urlencoded({extended:false}));
+
 //MAP EXPRESS TO OUR ROUTER OBJECTS
 app.use("/",generalRoutes);
 app.use("/user",userRoutes);
@@ -22,7 +25,6 @@ app.use("/",(req,res)=>{
 });
 
 
-app.use(bodyParser.urlencoded({extended:false}));
 
 //This tells Express to set Handlebars as template engine
 app.engine("handlebars",exphbs());
