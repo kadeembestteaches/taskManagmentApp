@@ -2,7 +2,8 @@ const express= require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const keys = require("./config/key");
+require("dotenv").config({path:'./config/keys.env'});
+
 
 //import your router objects
 const userRoutes = require("./routes/User");
@@ -33,8 +34,9 @@ app.set("view engine","handlebars");
 
 
 
-//connect to mongoDB using mongoose
-mongoose.connect(keys.getMongoDBURL(), {useNewUrlParser: true})
+const MONGO_DB_URL =`mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0-agoxt.mongodb.net/${process.env.MONGO_DB_DATABASE_NAME}?retryWrites=true&w=majority`;
+    
+mongoose.connect(MONGO_DB_URL, {useNewUrlParser: true})
 .then(()=>{
 
     console.log(`You have successfully connected to your mongoDB database`);
