@@ -1,12 +1,5 @@
-{{#each messages}}
-    <div class="error">
-        {{this}}
-    </div>
-
-{{/each}}
-
-
- <h2>Add Task</h2>
+    <h2>Add Task</h2>
+    
     <form method="POST" action="/task/add">
 
         <label>Title</label>
@@ -19,5 +12,6 @@
         <input type="date" name="reminderDate" id="reminderDate"> <br><br>
 
         <input type="submit" value="Add Task">
+
     </form>
 

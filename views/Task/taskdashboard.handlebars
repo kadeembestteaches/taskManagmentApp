@@ -1,15 +1,17 @@
 <h2>Task Dashboard</h2>
-
+ 
  <section class="tasks-container">
-
      {{#each lists}} 
      <div>
         <a href="/task/profile/{{this._id}}">{{this.title}}</a> &nbsp;&nbsp;
-        <a href="#">Edit </a>&nbsp;&nbsp;
-        <a href="#">Delete </a>&nbsp;&nbsp;
+        <a href="/task/edit/{{this._id}}">Edit</a>&nbsp;&nbsp;
+        <form id="deleteButtonForm" method="POST" action="/task/delete/{{this._id}}?_method=DELETE">
+            <input type="submit" value="Delete" class="delButtons" data-id="{{this.id}}" data-title="{{this.title}}">
+        </form>
     </div>
+    {{else}}
+        No tasks in database 
      {{/each}}
-
 </section>
 
 <div id="tasks-links-holder">

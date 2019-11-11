@@ -1,0 +1,15 @@
+ <h2>Update Task</h2>
+    <form method="POST" action="/task/edit/{{taskDocument._id}}/?_method=PUT">
+
+        <label>Title</label>
+        <input type="text" name="title" id="title" value="{{taskDocument.title}}"> <br><br>
+
+        <label>Description</label>
+        <textarea id="description" name="description">{{taskDocument.description}}</textarea><br><br>
+
+        <label>Reminder Date</label>
+        <input type="date" name="dateReminder" id="dateReminder" value="{{taskDocument.reminderDate}}"> <br><br>
+
+        <input type="submit" value="Update Task">
+    </form>
+

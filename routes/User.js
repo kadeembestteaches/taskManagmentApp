@@ -5,7 +5,7 @@ const router = express.Router();
 //Route to direct use to Registration form
 router.get("/register",(req,res)=>
 {
-    res.send("Registration Form");
+    res.render("User/register");
 });
 
 //Route to process user's request and data when user submits registration form
@@ -18,7 +18,7 @@ router.post("/register",(req,res)=>
 //Route to direct user to login form
 router.get("/login",(req,res)=>
 {
-    res.send("Login Form");
+    res.render("User/login");
 });
 
 //Route to process user's request and data when user submits login form
@@ -30,7 +30,7 @@ router.post("/login",(req,res)=>
 //Route used to pull user's profile 
 router.get("/profile",(req,res)=>
 {
-    res.send("User profile page");
+    res.send("User/userDashboard");
 });
 
 ////Route to process user's request and data when user submits edit form
@@ -38,8 +38,5 @@ router.put("/profile",(req,res)=>
 {
     res.send("Upatted user's profile page");
 });
-
-
-
 
 module.exports=router;

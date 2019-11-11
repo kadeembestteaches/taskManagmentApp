@@ -1,3 +1,4 @@
+
 /*********************Task ROUTES***************************/
 const express = require('express')
 const router = express.Router();
@@ -9,7 +10,7 @@ router.get("/add",(req,res)=>
     res.render("Task/taskAddForm")
 });
 
-//Route to process user's request and data when user submits add task form
+//Route to process user's request and data when the user submits the add task form
 router.post("/add",(req,res)=>
 {
     const newTask=
@@ -46,16 +47,14 @@ router.get("/list",(req,res)=>
     .catch(err=>console.log(`Error : ${err}`));
 });
 
-
+//Route to direct user to the task profile page
 router.get("/profile/:id",(req,res)=>{
 
     Task.findById(req.params.id)
     .then((task)=>{
-
         res.render("Task/taskProfile",{
-            singleTask:task
+            taskDocument:task
         })
-
     })
     .catch(err=>console.log(`Error : ${err}`));
 })
@@ -64,21 +63,47 @@ router.get("/profile/:id",(req,res)=>{
 //Route to direct user to edit task form
 router.get("/edit/:id",(req,res)=>
 {
-    res.send("Edit Task Form");
+    Task.findById(req.params.id)
+    .then((task)=>{
+
+        res.render("Task/taskEditForm",{
+            taskDocument:task
+        })
+
+    })
+    .catch(err=>console.log(`Error : ${err}`));
 });
 
-//Route to process user's request and data when user submits edit task form
-router.put("/login",(req,res)=>
+//Route to update a task based on the information entered in the task form
+router.put("/edit/:id",(req,res)=>
 {
-    res.send("Submitted Edit Task form");
+    Task.findById(req.params.id)
+    .then((task)=>{
+
+        task.title=req.body.title;
+        task.description=req.body.description;
+        task.dateReminder=req.body.dateReminder;
+
+        task.save()
+
+        .then(()=>{
+           res.redirect("/task/list") 
+        })
+        .catch(err=>console.log(`Error : ${err}`));
+
+    })
+    .catch(err=>console.log(`Error : ${err}`));
 });
 
 //Route used to delete task 
 router.delete("/delete/:id",(req,res)=>
 {
-    res.send("Deleted Task");
+    Task.deleteOne({_id:req.params.id})
+    .then((task)=>{
+
+        res.redirect("/task/list");
+    })
+    .catch(err=>console.log(`Error : ${err}`));
 });
-
-
 
 module.exports=router;
