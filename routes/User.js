@@ -2,6 +2,9 @@
 const express = require('express')
 const router = express.Router();
 
+//This allows you to pefrom CRUD operations on the User colections 
+const User = require("../models/User");
+
 //Route to direct use to Registration form
 router.get("/register",(req,res)=>
 {
@@ -11,7 +14,28 @@ router.get("/register",(req,res)=>
 //Route to process user's request and data when user submits registration form
 router.post("/register",(req,res)=>
 {
-    res.send("Submitted Registration Form");
+
+
+    //validation
+
+    const newUser = {
+        firstName : req.body.firstName,
+        lastName : req.body.lastName ,
+        email : req.body.email,
+        password : req.body.password
+    }
+
+
+    const user = new User(newUser)
+
+    user.save()
+    .then(user=>{
+
+        //bcrypt code here
+        res.redirect("/user/login");
+    })
+    .catch(err=>console.log(`Error :${err}`));
+
 });
 
 

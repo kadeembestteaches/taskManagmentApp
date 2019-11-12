@@ -3,6 +3,7 @@ const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
+const fileupload = require("express-fileupload");
 
 //This loads all our environment variables from the keys.env
 require("dotenv").config({path:'./config/keys.env'});
@@ -16,7 +17,10 @@ const generalRoutes = require("./routes/General");
 const app = express();
 
 //This allows your 
-app.use(bodyParser.urlencoded({extended:false}));
+//app.use(bodyParser.urlencoded({extended:false}));
+
+//This is how you map your file upload to express
+app.use(fileupload())
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
@@ -38,7 +42,7 @@ app.engine("handlebars",exphbs());
 app.set("view engine","handlebars");
 
 
-const MONGO_DB_URL =`mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0-agoxt.mongodb.net/${process.env.MONGO_DB_DATABASE_NAME}?retryWrites=true&w=majority`;
+const MONGO_DB_URL=`mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0-agoxt.mongodb.net/${process.env.MONGO_DB_DATABASE_NAME}?retryWrites=true&w=majority`;
  
 //This allows Mongoose to connect to MongoDB
 mongoose.connect(MONGO_DB_URL, {useNewUrlParser: true,useUnifiedTopology: true })
