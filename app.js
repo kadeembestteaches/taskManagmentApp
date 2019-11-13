@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
 const fileupload = require("express-fileupload");
+const session = require("express-session");
 
 //This loads all our environment variables from the keys.env
 require("dotenv").config({path:'./config/keys.env'});
@@ -17,7 +18,7 @@ const generalRoutes = require("./routes/General");
 const app = express();
 
 //This allows your 
-//app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:false}));
 
 //This is how you map your file upload to express
 app.use(fileupload())
@@ -27,6 +28,15 @@ app.use(methodOverride('_method'));
 
 //This is used to make express load all static resources within the public folder
 app.use(express.static("public"));
+
+app.use(session({secret:"This is my secret key. This should not be shown to everyone"}))
+
+app.use((req,res,next)=>{
+
+    //This is a global variable that can be accessed by templates
+    res.locals.user= req.session.userInfo;
+    next();
+})
 
 //MAPs EXPRESS TO ALL OUR  ROUTER OBJECTS
 app.use("/",generalRoutes);

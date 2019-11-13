@@ -52,7 +52,7 @@ userSchema.pre("save",function(next){
                 this.password=hash
                 // The below code is a call back function that does the following :
                  //It forces the code of execution to  move onto the next code in the execution queue 
-                next()
+                next();
             })
         })
 
