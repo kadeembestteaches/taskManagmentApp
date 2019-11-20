@@ -3,15 +3,16 @@
 const express = require('express')
 const router = express.Router();
 const Task = require("../models/Task");
+const hasAccess= require("../middleware/auth");
 
 //Route to direct use to Add Task form
-router.get("/add",(req,res)=>
+router.get("/add",hasAccess,(req,res)=>
 {
     res.render("Task/taskAddForm")
 });
 
 //Route to process user's request and data when the user submits the add task form
-router.post("/add",(req,res)=>
+router.post("/add",hasAccess,(req,res)=>
 {
     const newTask=
     {
@@ -34,7 +35,7 @@ router.post("/add",(req,res)=>
 });
 
 ////Route to fetch all tasks
-router.get("/list",(req,res)=>
+router.get("/list",hasAccess,(req,res)=>
 {
 
     Task.find()
@@ -48,7 +49,7 @@ router.get("/list",(req,res)=>
 });
 
 //Route to direct user to the task profile page
-router.get("/profile/:id",(req,res)=>{
+router.get("/profile/:id",hasAccess,(req,res)=>{
 
     Task.findById(req.params.id)
     .then((task)=>{
@@ -61,7 +62,7 @@ router.get("/profile/:id",(req,res)=>{
 
 
 //Route to direct user to edit task form
-router.get("/edit/:id",(req,res)=>
+router.get("/edit/:id",hasAccess,(req,res)=>
 {
     Task.findById(req.params.id)
     .then((task)=>{
@@ -75,7 +76,7 @@ router.get("/edit/:id",(req,res)=>
 });
 
 //Route to update a task based on the information entered in the task form
-router.put("/edit/:id",(req,res)=>
+router.put("/edit/:id",hasAccess,(req,res)=>
 {
     Task.findById(req.params.id)
     .then((task)=>{
@@ -96,7 +97,7 @@ router.put("/edit/:id",(req,res)=>
 });
 
 //Route used to delete task 
-router.delete("/delete/:id",(req,res)=>
+router.delete("/delete/:id",hasAccess,(req,res)=>
 {
     Task.deleteOne({_id:req.params.id})
     .then((task)=>{

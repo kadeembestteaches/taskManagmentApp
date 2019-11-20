@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router();
 const bcrypt= require("bcryptjs");
+const path = require("path");
 
 //This allows you to pefrom CRUD operations on the User colections 
 const User = require("../models/User");
@@ -16,9 +17,7 @@ router.get("/register",(req,res)=>
 router.post("/register",(req,res)=>
 {
 
-
     //validation
-
     const newUser = {
         firstName : req.body.firstName,
         lastName : req.body.lastName ,
@@ -26,16 +25,68 @@ router.post("/register",(req,res)=>
         password : req.body.password
     }
 
+    const errors= [];
 
-    const user = new User(newUser)
+    //Test to see if user did not upload file
+    if(req.files==null)
+    {
+        errors.push("Sorry you must upload a file")
+    }   
 
-    user.save()
-    .then(user=>{
+    //User uploaded file
+    else
+    {       //file is not an image
+            if(req.files.profilePic.mimetype.indexOf("image")==-1)
+            {
+                errors.push("Sorry you can only upload images : Example (jpg,gif, png) ")
+            }
+    }
 
-        //bcrypt code here
-        res.redirect("/user/login");
-    })
-    .catch(err=>console.log(`Error :${err}`));
+
+    //Has errors
+    if(errors.length > 0)
+    {
+        res.render("User/register",{
+            errors:errors,
+            firstName :newUser.firstName,
+            lastName : newUser.lastName,
+            email : newUser.email
+        })
+    }
+
+    else 
+    {
+
+        const user = new User(newUser);
+        //create  new user
+        user.save()
+        .then(user=>{
+    
+           
+            //rename file to include the userid
+            req.files.profilePic.name = `db_${user._id}${path.parse(req.files.profilePic.name).ext}`
+            
+            //upload file to server
+            req.files.profilePic.mv(`public/uploads/${req.files.profilePic.name}`)
+            .then(()=>{
+
+                //Then is needed to refer to associate the uploaded image to the user
+                User.findByIdAndUpdate(user._id,{
+                    profilePic:req.files.profilePic.name 
+                })
+                .then(()=>{
+                    console.log(`File name was updated in the database`)
+                    res.redirect("/user/login");  
+                })
+                .catch(err=>console.log(`Error :${err}`));
+                
+                 
+            });
+
+        })
+        .catch(err=>console.log(`Error :${err}`));
+
+    }
 
 });
 

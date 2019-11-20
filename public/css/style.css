@@ -61,3 +61,8 @@ input[class="delButtons"]
     padding-bottom:1.5rem;
     margin-bottom:1.5rem;
 }
+
+.profile-pic
+{
+    max-width: 50%;
+}
